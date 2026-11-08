@@ -1,0 +1,787 @@
+:root {
+  --bg-deep: #1e1614;
+  --bg-warm: #2c201d;
+  --cover-leather: #4a2c2a;
+  --cover-leather-dark: #321b19;
+  --gold-primary: #d4af37;
+  --gold-light: #f3e5ab;
+  --gold-rose: #dca194;
+  --paper-cream: #fcf8f2;
+  --paper-aged: #f4ece1;
+  --paper-edge: #e5d8c5;
+  --ink-dark: #3a2623;
+  --ink-muted: #6e524d;
+  --ink-accent: #9e4747;
+  --rose-soft: #e8b4b8;
+  --rose-deep: #b85d68;
+  --shadow-book: 0 28px 60px rgba(0, 0, 0, 0.55), 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100dvh;
+  background-color: var(--bg-deep);
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(220, 161, 148, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, #2e201d 0%, #160f0e 100%);
+  color: var(--ink-dark);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  user-select: none;
+}
+
+/* Visually Hidden Utility for Accessibility */
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
+/* Ambient Floating Particles */
+.ambient-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--gold-light) 0%, transparent 70%);
+  opacity: 0.35;
+  animation: floatUp linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(105vh) scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.45;
+  }
+  80% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: translateY(-10vh) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* Confetti Canvas */
+#confetti-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Top Floating Bar (Music & Page Indicator) */
+.top-bar {
+  position: fixed;
+  top: 1.25rem;
+  left: 0;
+  right: 0;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 40;
+  pointer-events: none;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.top-bar > * {
+  pointer-events: auto;
+}
+
+.page-counter-pill {
+  background: rgba(44, 32, 29, 0.78);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  color: var(--gold-light);
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.music-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(44, 32, 29, 0.82);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: var(--gold-light);
+  padding: 0.5rem 1.05rem;
+  min-block-size: 42px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.music-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold-primary);
+  background: rgba(65, 43, 39, 0.9);
+}
+
+.music-btn:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--gold-primary);
+  outline-offset: 3px;
+}
+
+.music-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 13px;
+}
+
+.music-bars span {
+  width: 2.5px;
+  background-color: var(--gold-primary);
+  border-radius: 2px;
+  height: 4px;
+  transition: height 0.2s ease;
+}
+
+.music-btn[aria-pressed="true"] .music-bars span:nth-child(1) {
+  animation: eqBar 0.8s ease-in-out infinite alternate;
+}
+.music-btn[aria-pressed="true"] .music-bars span:nth-child(2) {
+  animation: eqBar 0.55s ease-in-out 0.15s infinite alternate;
+}
+.music-btn[aria-pressed="true"] .music-bars span:nth-child(3) {
+  animation: eqBar 0.7s ease-in-out 0.3s infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .music-btn[aria-pressed="true"] .music-bars span {
+    animation: none !important;
+    height: 10px;
+  }
+}
+
+@keyframes eqBar {
+  0% { height: 3px; }
+  100% { height: 13px; }
+}
+
+/* Book Scene & Stage */
+.book-stage {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 520px;
+  padding: 4.5rem 1.25rem 5.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  perspective: 1800px;
+}
+
+.book-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 570px;
+  border-radius: 14px 22px 22px 14px;
+  box-shadow: var(--shadow-book);
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Book Spine & Stacked Paper Edges */
+.book-spine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 22px;
+  background: linear-gradient(90deg, 
+    #251311 0%, 
+    #4c2b28 35%, 
+    #2c1614 75%, 
+    rgba(0,0,0,0.22) 100%);
+  border-radius: 14px 0 0 14px;
+  z-index: 30;
+  pointer-events: none;
+  box-shadow: inset -2px 0 5px rgba(0, 0, 0, 0.35);
+}
+
+.book-spine::after {
+  content: "";
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  left: 7px;
+  width: 1.5px;
+  background: linear-gradient(to bottom, transparent, rgba(212, 175, 55, 0.45), transparent);
+}
+
+.book-page-edges {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  right: -7px;
+  width: 12px;
+  background: repeating-linear-gradient(
+    to right,
+    #efe5d5 0px,
+    #efe5d5 2px,
+    #d6c7b2 2px,
+    #d6c7b2 3px
+  );
+  border-radius: 0 6px 6px 0;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+/* Individual Book Pages */
+.book-page {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px 20px 20px 14px;
+  background: var(--paper-cream);
+  background-image: 
+    radial-gradient(circle at 90% 10%, rgba(232, 180, 184, 0.16), transparent 45%),
+    radial-gradient(circle at 15% 85%, rgba(212, 175, 55, 0.1), transparent 50%),
+    linear-gradient(90deg, rgba(58, 38, 35, 0.12) 0%, rgba(58, 38, 35, 0.03) 6%, transparent 14%);
+  padding: 2.25rem 1.85rem 2rem 2.65rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transform-origin: left center;
+  backface-visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: rotateY(-25deg) scale(0.98);
+  transition:
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.45s ease;
+  z-index: 5;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-page {
+    transform: none !important;
+    transition: opacity 0.25s ease !important;
+  }
+}
+
+/* Active, Previous (Flipped Left), and Next States */
+.book-page.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: rotateY(0deg) scale(1);
+  z-index: 15;
+}
+
+.book-page.is-flipped {
+  opacity: 0;
+  pointer-events: none;
+  transform: rotateY(-110deg) scale(0.98);
+  z-index: 10;
+}
+
+.book-page.is-upcoming {
+  opacity: 0;
+  pointer-events: none;
+  transform: rotateY(15deg) scale(0.97);
+  z-index: 5;
+}
+
+/* Leather Cover Theme (Page 1 & Page 7 Back Cover) */
+.book-page.page-cover {
+  background: linear-gradient(135deg, #4b2826 0%, #2f1716 60%, #22100f 100%);
+  color: var(--paper-cream);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.55);
+}
+
+.cover-frame {
+  border: 1.5px solid rgba(212, 175, 55, 0.45);
+  border-radius: 12px;
+  padding: 1.65rem 1.35rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  background: radial-gradient(circle at 50% 25%, rgba(212, 175, 55, 0.1), transparent 70%);
+}
+
+.cover-frame::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px dashed rgba(212, 175, 55, 0.25);
+  border-radius: 9px;
+  pointer-events: none;
+}
+
+/* Decorative Page Inner Frame for Paper Pages */
+.page-inner-frame {
+  border: 1px solid rgba(158, 71, 71, 0.18);
+  border-radius: 12px;
+  padding: 1.5rem 1.25rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+/* Typography Styles */
+.chapter-tag {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-accent);
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.page-cover .chapter-tag {
+  color: var(--gold-primary);
+}
+
+.serif-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 5vw, 2.3rem);
+  line-height: 1.18;
+  color: var(--ink-dark);
+  text-align: center;
+}
+
+.page-cover .serif-title {
+  color: var(--gold-light);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.handwriting-accent {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.55rem;
+  color: var(--rose-deep);
+  font-weight: 600;
+}
+
+.page-cover .handwriting-accent {
+  color: var(--gold-rose);
+}
+
+.divider-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 0.75rem 0;
+  color: var(--gold-primary);
+  font-size: 0.9rem;
+}
+
+.divider-ornament::before,
+.divider-ornament::after {
+  content: "";
+  height: 1px;
+  width: 48px;
+  background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+}
+
+/* Step 1 Gate Form Styling */
+.gate-quiz-box {
+  width: 100%;
+  background: rgba(25, 12, 11, 0.55);
+  border: 1px solid rgba(212, 175, 55, 0.32);
+  border-radius: 12px;
+  padding: 1.25rem 1.1rem;
+  margin-top: 0.5rem;
+  text-align: left;
+}
+
+.gate-question-label {
+  display: block;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.22rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  margin-bottom: 0.35rem;
+  line-height: 1.3;
+}
+
+.gate-hint {
+  display: block;
+  font-size: 0.78rem;
+  color: rgba(243, 229, 171, 0.72);
+  margin-bottom: 0.75rem;
+}
+
+.gate-input {
+  width: 100%;
+  font-size: 1rem; /* >=16px prevents iOS zoom */
+  font-family: inherit;
+  padding: 0.75rem 1rem;
+  min-height: 48px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(212, 175, 55, 0.45);
+  background: rgba(252, 248, 242, 0.96);
+  color: var(--ink-dark);
+  font-weight: 500;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gate-input::placeholder {
+  color: #9b847e;
+}
+
+.gate-input[aria-invalid="true"] {
+  border-color: #ff7b7b;
+  box-shadow: 0 0 0 3px rgba(255, 123, 123, 0.25);
+}
+
+.gate-feedback {
+  margin-top: 0.65rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  min-height: 1.35rem;
+  line-height: 1.35;
+}
+
+.gate-feedback.is-error {
+  color: #ffb4b4;
+}
+
+.gate-feedback.is-success {
+  color: #a7f3d0;
+  font-weight: 600;
+}
+
+.btn-primary-gold {
+  margin-top: 0.75rem;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #dfbd56 0%, #b88a28 100%);
+  color: #231210;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.32);
+  transition: transform 0.2s ease, filter 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary-gold:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+.btn-primary-gold:disabled {
+  opacity: 0.75;
+  cursor: default;
+}
+
+/* Body Prose & Quotes */
+.story-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  flex: 1;
+  padding: 0.5rem 0.25rem;
+}
+
+.lead-quote {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.28rem, 3.8vw, 1.52rem);
+  line-height: 1.48;
+  color: var(--ink-dark);
+  text-align: center;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.prose-text {
+  font-size: 0.96rem;
+  line-height: 1.72;
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+/* Lined Letter Paper for Long Text (Page 4) */
+.letter-scroll-box {
+  background: #fffdf9;
+  border: 1px solid #e6d8c5;
+  border-radius: 10px;
+  padding: 1.15rem 1.1rem;
+  max-height: 310px;
+  overflow-y: auto;
+  box-shadow: inset 0 2px 8px rgba(58, 38, 35, 0.05);
+  background-image: linear-gradient(transparent 95%, rgba(212, 175, 55, 0.16) 95%);
+  background-size: 100% 1.85rem;
+  line-height: 1.85rem;
+  text-align: left;
+  user-select: text;
+}
+
+.letter-scroll-box p {
+  font-size: 0.93rem;
+  color: var(--ink-dark);
+  margin-bottom: 0.95rem;
+  line-height: 1.75;
+}
+
+.letter-scroll-box p:last-child {
+  margin-bottom: 0;
+}
+
+/* Interactive Gift Box (Page 5) */
+.gift-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0.5rem 0;
+}
+
+.gift-box-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  border-radius: 16px;
+  transition: transform 0.25s ease;
+}
+
+.gift-box-btn:hover {
+  transform: scale(1.05);
+}
+
+.gift-svg-wrapper {
+  width: 112px;
+  height: 112px;
+  position: relative;
+  filter: drop-shadow(0 10px 18px rgba(158, 71, 71, 0.28));
+  animation: gentleBounce 2.4s ease-in-out infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.gift-box-btn[aria-expanded="true"] .gift-svg-wrapper {
+  animation: none;
+}
+
+@keyframes gentleBounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-6px) rotate(-2deg); }
+  75% { transform: translateY(-4px) rotate(2deg); }
+}
+
+.gift-lid {
+  transform-origin: center bottom;
+  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+}
+
+.gift-box-btn[aria-expanded="true"] .gift-lid {
+  transform: translateY(-28px) rotate(-14deg);
+}
+
+.gift-tap-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--rose-deep);
+  background: rgba(232, 180, 184, 0.28);
+  border: 1px solid rgba(184, 93, 104, 0.35);
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+}
+
+.gift-message-card {
+  background: linear-gradient(135deg, #fff9f5 0%, #fdf0ec 100%);
+  border: 1.5px solid var(--gold-rose);
+  border-radius: 12px;
+  padding: 1.15rem 1rem;
+  text-align: center;
+  box-shadow: 0 8px 22px rgba(184, 93, 104, 0.14);
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.gift-message-card.is-revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Wishes / Prayers List (Page 6) */
+.wishes-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  text-align: left;
+  margin: 0.25rem 0;
+}
+
+.wish-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  background: rgba(255, 252, 247, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+  font-size: 0.89rem;
+  line-height: 1.5;
+  color: var(--ink-dark);
+}
+
+.wish-icon {
+  color: var(--gold-primary);
+  font-size: 1.05rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+/* Page Footer & Navigation Buttons inside Pages */
+.page-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(158, 71, 71, 0.15);
+}
+
+.page-cover .page-footer {
+  border-top-color: rgba(212, 175, 55, 0.22);
+  width: 100%;
+}
+
+.btn-page-nav {
+  min-height: 44px;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-prev {
+  background: transparent;
+  border: 1px solid rgba(110, 82, 77, 0.35);
+  color: var(--ink-muted);
+}
+
+.btn-prev:hover {
+  background: rgba(110, 82, 77, 0.08);
+  transform: translateX(-2px);
+}
+
+.page-cover .btn-prev {
+  border-color: rgba(243, 229, 171, 0.4);
+  color: var(--gold-light);
+}
+
+.btn-next {
+  background: var(--ink-dark);
+  border: 1px solid var(--ink-dark);
+  color: var(--paper-cream);
+  margin-left: auto;
+  box-shadow: 0 4px 12px rgba(58, 38, 35, 0.22);
+}
+
+.btn-next:hover {
+  background: var(--ink-accent);
+  border-color: var(--ink-accent);
+  transform: translateX(2px);
+}
+
+.page-number-mark {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--ink-muted);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .book-stage {
+    padding: 4.2rem 0.85rem 2.5rem;
+  }
+  .book-wrapper {
+    min-height: 550px;
+  }
+  .book-page {
+    padding: 1.65rem 1.25rem 1.5rem 2.1rem;
+  }
+  .page-inner-frame,
+  .cover-frame {
+    padding: 1.2rem 1rem;
+  }
+}
