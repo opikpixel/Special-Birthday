@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Special Birthday Book — 09 November 2007</title>
+
+  <!-- Google Fonts: Cormorant Garamond, Plus Jakarta Sans & Dancing Script -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient Floating Dust Particles -->
+  <div id="ambient-particles" class="ambient-particles" aria-hidden="true"></div>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <!-- Centralized Polite Live Region for Screen Readers -->
+  <div id="live-announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Optional Custom MP3 Audio (Taruh file lagu dengan nama bgm.mp3 di folder ini jika ingin memakai lagu MP3 sendiri, jika tidak ada maka otomatis memakai melodi Music Box) -->
+  <audio id="bg-audio" loop preload="auto"></audio>
+
+  <!-- Top Header Landmark -->
+  <header class="top-bar">
+    <div class="page-counter-pill" aria-live="off">
+      <span id="page-counter-text">Sampul Buku</span>
+    </div>
+
+    <button
+      type="button"
+      id="music-toggle-btn"
+      class="music-btn"
+      aria-pressed="false"
+    >
+      <span class="music-bars" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+      <span id="music-label">Musik: Mati</span>
+    </button>
+  </header>
+
+  <!-- Main Flipbook Stage -->
+  <main class="book-stage">
+    <div class="book-wrapper">
+      <!-- Physical Book Spine & Stacked Paper Edges -->
+      <div class="book-spine" aria-hidden="true"></div>
+      <div class="book-page-edges" aria-hidden="true"></div>
+
+      <!-- =========================================================
+           HALAMAN 1 (SAMPUL): Pertanyaan Kunci "09 November 2007"
+           ========================================================= -->
+      <section class="book-page page-cover is-active" aria-hidden="false">
+        <div class="cover-frame">
+          <div>
+            <p class="chapter-tag">Special Memory Book</p>
+            <h1 class="serif-title" data-page-heading tabindex="-1">The Ninth of November</h1>
+            <div class="divider-ornament" aria-hidden="true">✦ ❀ ✦</div>
+            <p class="handwriting-accent">Sebuah catatan kecil yang tulus</p>
+          </div>
+
+          <form id="gate-form" class="gate-quiz-box" action="#" method="POST" novalidate>
+            <label for="birthday-name-input" class="gate-question-label">
+              Siapa yang ulang tahun pada 09 November 2007 ?
+            </label>
+            <span id="gate-hint" class="gate-hint">
+              Ketik nama orang spesial tersebut untuk membuka lembaran buku ini.
+            </span>
+            <input
+              type="text"
+              id="birthday-name-input"
+              name="birthday_person"
+              class="gate-input"
+              placeholder="Contoh: Annisa"
+              aria-describedby="gate-hint gate-feedback"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="words"
+              spellcheck="false"
+              enterkeyhint="done"
+              required
+            >
+            <div id="gate-feedback" class="gate-feedback"></div>
+
+            <button type="submit" id="gate-submit-btn" class="btn-primary-gold">
+              <span>Buka Lembaran Buku</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </form>
+
+          <p style="font-size: 0.75rem; color: rgba(243, 229, 171, 0.65);">
+            09 • 11 • 2007 — Warm Edition
+          </p>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           HALAMAN 2 (LEMBAR 1): Happy Birthday Annisa
+           ========================================================= -->
+      <section class="book-page is-upcoming" inert aria-hidden="true">
+        <div class="page-inner-frame">
+          <div>
+            <p class="chapter-tag">Lembar Pertama • 09 November</p>
+            <h2 class="serif-title" data-page-heading tabindex="-1">Happy Birthday Annisa</h2>
+            <div class="divider-ornament" aria-hidden="true">✦ ❀ ✦</div>
+          </div>
+
+          <div class="story-body">
+            <!-- Ilustrasi Kue Ulang Tahun Elegan -->
+            <div style="text-align: center;" aria-hidden="true">
+              <svg width="78" height="78" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M32 10C32 10 28 15 28 18C28 20.2091 29.7909 22 32 22C34.2091 22 36 20.2091 36 18C36 15 32 10 32 10Z" fill="#D4AF37"/>
+                <rect x="30" y="22" width="4" height="8" rx="1" fill="#9E4747"/>
+                <rect x="16" y="30" width="32" height="12" rx="4" fill="#F3E5AB" stroke="#9E4747" stroke-width="2"/>
+                <rect x="12" y="42" width="40" height="14" rx="4" fill="#E8B4B8" stroke="#9E4747" stroke-width="2"/>
+                <path d="M16 36C19 39 22 39 25 36C28 39 31 39 34 36C37 39 40 39 43 36C45 38 47 38 48 36" stroke="#9E4747" stroke-width="2" stroke-linecap="round"/>
+                <line x1="8" y1="56" x2="56" y2="56" stroke="#3A2623" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+
+            <p class="lead-quote">
+              “Hari ini adalah yang spesial banget dimana orang yang paling cantik sejagat raya sedang ulang tahun”
+            </p>
+
+            <p class="prose-text">
+              Selamat bertambah usia yaa, Nis. Semoga hari ini penuh dengan senyuman hangat dan hal-hal baik yang bikin hati kamu bahagia.
+            </p>
+          </div>
+
+          <div class="page-footer">
+            <button type="button" class="btn-page-nav btn-prev" data-nav-prev>
+              <span aria-hidden="true">←</span> Sampul
+            </button>
+            <span class="page-number-mark">Hal. 01</span>
+            <button type="button" class="btn-page-nav btn-next" data-nav-next>
+              Lanjut <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           HALAMAN 3 (LEMBAR 2): Minta Maaf & Pengantar Cerita
+           ========================================================= -->
+      <section class="book-page is-upcoming" inert aria-hidden="true">
+        <div class="page-inner-frame">
+          <div>
+            <p class="chapter-tag">Lembar Kedua • Dari Hati</p>
+            <h2 class="serif-title" data-page-heading tabindex="-1">Sebuah Kata Maaf</h2>
+            <div class="divider-ornament" aria-hidden="true">✦ ❀ ✦</div>
+          </div>
+
+          <div class="story-body">
+            <p class="handwriting-accent" style="text-align: center;">Untuk Annisa,</p>
+
+            <p class="lead-quote">
+              “Minta maaf yaaa Nisss kalau aku salah jadi sampai sekarang, nih aku cerita”
+            </p>
+
+            <p class="prose-text">
+              Mungkin belakangan ini suasana di antara kita terasa agak canggung atau asing. Sebelum melangkah lebih jauh di hari spesialmu ini, izinkan aku berbagi sedikit cerita di halaman sebelah...
+            </p>
+          </div>
+
+          <div class="page-footer">
+            <button type="button" class="btn-page-nav btn-prev" data-nav-prev>
+              <span aria-hidden="true">←</span> Kembali
+            </button>
+            <span class="page-number-mark">Hal. 02</span>
+            <button type="button" class="btn-page-nav btn-next" data-nav-next>
+              Baca Ceritaku <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           HALAMAN 4 (LEMBAR 3): Long Text (Diisi oleh Kamu Nanti)
+           ========================================================= -->
+      <section class="book-page is-upcoming" inert aria-hidden="true">
+        <div class="page-inner-frame">
+          <div>
+            <p class="chapter-tag">Lembar Ketiga • Cerita Panjang</p>
+            <h2 class="serif-title" data-page-heading tabindex="-1">Cerita Dari Aku</h2>
+            <div class="divider-ornament" aria-hidden="true">✦ ❀ ✦</div>
+          </div>
+
+          <!-- =======================================================
+               TEMPAT MENGISI LONG TEXT KAMU:
+               Silakan ubah teks di dalam <div class="letter-scroll-box">
+               di bawah ini dengan cerita lengkap versi kamu.
+               ======================================================= -->
+          <div class="letter-scroll-box" tabindex="0" role="region" aria-label="Isi surat cerita">
+            <p>
+              <strong>Halo Annisa,</strong>
+            </p>
+            <p>
+              [Tuliskan cerita panjangmu di bagian ini nanti. Kamu bebas menceritakan apa yang sebenarnya terjadi, perasaan bersalahmu karena situasi yang sempat renggang/asing, dan betapa kamu menghargai pertemanan baik dengannya.]
+            </p>
+            <p>
+              [Paragraf kedua: Misalnya tentang momen-momen waktu masih sering ngobrol santai tanpa rasa canggung, atau hal-hal yang ingin kamu luruskan supaya tidak ada salah paham lagi di antara kalian.]
+            </p>
+            <p>
+              [Paragraf penutup surat: Harapan supaya setelah ulang tahun ini, suasana bisa cair kembali dan bisa berteman baik lagi seperti sedia kala.]
+            </p>
+          </div>
+
+          <div class="page-footer">
+            <button type="button" class="btn-page-nav btn-prev" data-nav-prev>
+              <span aria-hidden="true">←</span> Kembali
+            </button>
+            <span class="page-number-mark">Hal. 03</span>
+            <button type="button" class="btn-page-nav btn-next" data-nav-next>
+              Lanjut <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           HALAMAN 5 (LEMBAR 4): Interaktif Buka Kado & Pesan Hadiah
+           ========================================================= -->
+      <section class="book-page is-upcoming" inert aria-hidden="true">
+        <div class="page-inner-frame">
+          <div>
+            <p class="chapter-tag">Lembar Keempat • Tanda Pertemanan</p>
+            <h2 class="serif-title" data-page-heading tabindex="-1">Ada Sesuatu Untukmu</h2>
+            <div class="divider-ornament" aria-hidden="true">✦ 🎁 ✦</div>
+          </div>
+
+          <div class="gift-stage">
+            <button
+              type="button"
+              id="gift-box-btn"
+              class="gift-box-btn"
+              aria-expanded="false"
+              aria-controls="gift-message-card"
+            >
+              <div class="gift-svg-wrapper" aria-hidden="true">
+                <svg viewBox="0 0 120 120" width="112" height="112" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Gift Box Base -->
+                  <rect x="22" y="52" width="76" height="54" rx="6" fill="#B85D68" stroke="#3A2623" stroke-width="2.5"/>
+                  <rect x="53" y="52" width="14" height="54" fill="#D4AF37"/>
+                  <!-- Animated Lid & Ribbon -->
+                  <g class="gift-lid">
+                    <path d="M60 36C48 20 32 24 38 36C42 42 60 38 60 38Z" fill="#D4AF37" stroke="#3A2623" stroke-width="2.2"/>
+                    <path d="M60 36C72 20 88 24 82 36C78 42 60 38 60 38Z" fill="#D4AF37" stroke="#3A2623" stroke-width="2.2"/>
+                    <rect x="16" y="36" width="88" height="16" rx="5" fill="#DCA194" stroke="#3A2623" stroke-width="2.5"/>
+                    <rect x="53" y="36" width="14" height="16" fill="#D4AF37"/>
+                  </g>
+                </svg>
+              </div>
+              <span id="gift-tap-badge" class="gift-tap-badge">
+                Ketuk kado untuk membuka ✨
+              </span>
+            </button>
+
+            <div id="gift-message-card" class="gift-message-card" aria-hidden="true">
+              <p class="lead-quote" style="font-size: 1.18rem;">
+                “Sebagai bentuk biar jadi teman lagi, terima hadiahnya ygy, semoga Annisa sering pakai ke kelas biar makin berdemeg”
+              </p>
+            </div>
+          </div>
+
+          <div class="page-footer">
+            <button type="button" class="btn-page-nav btn-prev" data-nav-prev>
+              <span aria-hidden="true">←</span> Kembali
+            </button>
+            <span class="page-number-mark">Hal. 04</span>
+            <button type="button" id="gift-next-btn" class="btn-page-nav btn-next" data-nav-next>
+              Lanjut <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           HALAMAN 6 (LEMBAR 5): Doa-Doa Terbaik
+           ========================================================= -->
+      <section class="book-page is-upcoming" inert aria-hidden="true">
+        <div class="page-inner-frame">
+          <div>
+            <p class="chapter-tag">Lembar Kelima • Harapan Baik</p>
+            <h2 class="serif-title" data-page-heading tabindex="-1">Doa-Doa Untuk Annisa</h2>
+            <div class="divider-ornament" aria-hidden="true">✦ ❀ ✦</div>
+          </div>
+
+          <!-- =======================================================
+               TEMPAT MENGISI / MENGUBAH DOA-DOA:
+               Kamu juga bisa menyesuaikan daftar doa di bawah ini.
+               ======================================================= -->
+          <ul class="wishes-list" role="list">
+            <li class="wish-item">
+              <span class="wish-icon" aria-hidden="true">✦</span>
+              <span>Semoga panjang umur, sehat selalu, dan selalu dalam lindungan-Nya di setiap langkahmu.</span>
+            </li>
+            <li class="wish-item">
+              <span class="wish-icon" aria-hidden="true">✦</span>
+              <span>Semoga urusan kuliah/sekolah dan semua cita-cita yang sedang Annisa perjuangkan dimudahkan serta dilancarkan.</span>
+            </li>
+            <li class="wish-item">
+              <span class="wish-icon" aria-hidden="true">✦</span>
+              <span>Semoga selalu dikelilingi orang-orang baik yang tulus menyayangi dan mendukungmu.</span>
+            </li>
+            <li class="wish-item">
+              <span class="wish-icon" aria-hidden="true">✦</span>
+              <span>Semoga pertemanan kita kembali hangat dan membawa kebaikan ke depannya. Aamiin ✨</span>
+            </li>
+          </ul>
+
+          <div class="page-footer">
+            <button type="button" class="btn-page-nav btn-prev" data-nav-prev>
+              <span aria-hidden="true">←</span> Kembali
+            </button>
+            <span class="page-number-mark">Hal. 05</span>
+            <button type="button" class="btn-page-nav btn-next" data-nav-next>
+              Penutup <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           HALAMAN 7 (SAMPUL PENUTUP): Terimakasih
+           ========================================================= -->
+      <section class="book-page page-cover is-upcoming" inert aria-hidden="true">
+        <div class="cover-frame">
+          <div>
+            <p class="chapter-tag">Lembar Terakhir</p>
+            <div class="divider-ornament" aria-hidden="true">✦ ❀ ✦</div>
+          </div>
+
+          <div class="story-body">
+            <h2 class="serif-title" data-page-heading tabindex="-1" style="font-size: 2.5rem;">
+              Terimakasih
+            </h2>
+            <p class="handwriting-accent" style="font-size: 1.7rem;">
+              Happy 19th Birthday, Annisa!
+            </p>
+            <p class="prose-text" style="color: rgba(252, 248, 242, 0.82); margin-top: 0.5rem;">
+              Terimakasih sudah meluangkan waktu untuk membuka dan membaca setiap lembar buku kecil ini sampai selesai. Semoga hari ulang tahunmu menyenangkan! ✨
+            </p>
+          </div>
+
+          <div class="page-footer">
+            <button type="button" class="btn-page-nav btn-prev" data-nav-prev>
+              <span aria-hidden="true">←</span> Sebelumnya
+            </button>
+            <button type="button" id="restart-book-btn" class="btn-page-nav btn-next" style="background: var(--gold-primary); color: #231210; border-color: var(--gold-primary);">
+              Baca Ulang ↺
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
