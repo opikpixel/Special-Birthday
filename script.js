@@ -67,36 +67,36 @@ document.addEventListener('DOMContentLoaded', () => {
         this.useHtmlAudio = true;
       }
 
-      // Warm Music Box "Happy Birthday" + Sentimental Arpeggio Melody (Frequencies in Hz)
+      // Warm Music Box "Happy Birthday" + Sentimental Arpeggio Melody (1 Octave higher for clear speaker projection)
       this.melody = [
-        { f: 261.63, d: 0.45 }, // C4
-        { f: 261.63, d: 0.35 }, // C4
-        { f: 293.66, d: 0.75 }, // D4
-        { f: 261.63, d: 0.75 }, // C4
-        { f: 349.23, d: 0.75 }, // F4
-        { f: 329.63, d: 1.35 }, // E4
-
-        { f: 261.63, d: 0.45 }, // C4
-        { f: 261.63, d: 0.35 }, // C4
-        { f: 293.66, d: 0.75 }, // D4
-        { f: 261.63, d: 0.75 }, // C4
-        { f: 392.00, d: 0.75 }, // G4
-        { f: 349.23, d: 1.35 }, // F4
-
-        { f: 261.63, d: 0.45 }, // C4
-        { f: 261.63, d: 0.35 }, // C4
+        { f: 523.25, d: 0.45 }, // C5
+        { f: 523.25, d: 0.35 }, // C5
+        { f: 587.33, d: 0.75 }, // D5
         { f: 523.25, d: 0.75 }, // C5
-        { f: 440.00, d: 0.75 }, // A4
-        { f: 349.23, d: 0.75 }, // F4
-        { f: 329.63, d: 0.75 }, // E4
-        { f: 293.66, d: 1.25 }, // D4
+        { f: 698.46, d: 0.75 }, // F5
+        { f: 659.25, d: 1.35 }, // E5
 
-        { f: 466.16, d: 0.45 }, // Bb4
-        { f: 466.16, d: 0.35 }, // Bb4
-        { f: 440.00, d: 0.75 }, // A4
-        { f: 349.23, d: 0.75 }, // F4
-        { f: 392.00, d: 0.75 }, // G4
-        { f: 349.23, d: 1.65 }  // F4
+        { f: 523.25, d: 0.45 }, // C5
+        { f: 523.25, d: 0.35 }, // C5
+        { f: 587.33, d: 0.75 }, // D5
+        { f: 523.25, d: 0.75 }, // C5
+        { f: 783.99, d: 0.75 }, // G5
+        { f: 698.46, d: 1.35 }, // F5
+
+        { f: 523.25, d: 0.45 }, // C5
+        { f: 523.25, d: 0.35 }, // C5
+        { f: 1046.50, d: 0.75 }, // C6
+        { f: 880.00, d: 0.75 }, // A5
+        { f: 698.46, d: 0.75 }, // F5
+        { f: 659.25, d: 0.75 }, // E5
+        { f: 587.33, d: 1.25 }, // D5
+
+        { f: 932.33, d: 0.45 }, // Bb5
+        { f: 932.33, d: 0.35 }, // Bb5
+        { f: 880.00, d: 0.75 }, // A5
+        { f: 698.46, d: 0.75 }, // F5
+        { f: 783.99, d: 0.75 }, // G5
+        { f: 698.46, d: 1.65 }  // F5
       ];
     }
 
@@ -105,6 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const AudioContextClass = window.AudioContext || window.webkitAudioContext;
         if (AudioContextClass) {
           this.audioCtx = new AudioContextClass();
+          // DynamicsCompressor keeps volume loud and clear without crackling/clipping
+          this.compressor = this.audioCtx.createDynamicsCompressor();
+          this.compressor.threshold.setValueAtTime(-16, this.audioCtx.currentTime);
+          this.compressor.knee.setValueAtTime(24, this.audioCtx.currentTime);
+          this.compressor.ratio.setValueAtTime(8, this.audioCtx.currentTime);
+          this.compressor.attack.setValueAtTime(0.005, this.audioCtx.currentTime);
+          this.compressor.release.setValueAtTime(0.2, this.audioCtx.currentTime);
+          this.compressor.connect(this.audioCtx.destination);
         }
       }
       if (this.audioCtx && this.audioCtx.state === 'suspended') {
@@ -115,24 +123,38 @@ document.addEventListener('DOMContentLoaded', () => {
     playBellNote(freq, duration) {
       if (!this.audioCtx || !this.isPlaying) return;
       const now = this.audioCtx.currentTime;
+      const targetNode = this.compressor || this.audioCtx.destination;
 
-      // Pure warm sine wave (menghindari triangle yang tajam/grusak-grusuk di speaker HP/laptop)
-      const osc = this.audioCtx.createOscillator();
-      const gain = this.audioCtx.createGain();
+      // Primary chime oscillator + warm lower-octave harmonic sine
+      const mainOsc = this.audioCtx.createOscillator();
+      const warmOsc = this.audioCtx.createOscillator();
+      const mainGain = this.audioCtx.createGain();
+      const warmGain = this.audioCtx.createGain();
 
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now);
+      mainOsc.type = 'sine';
+      mainOsc.frequency.setValueAtTime(freq, now);
 
-      // Attack halus tanpa clipping, decay natural seperti kotak musik kayu
-      gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(0.045, now + 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration + 0.5);
+      warmOsc.type = 'sine';
+      warmOsc.frequency.setValueAtTime(freq * 0.5, now);
 
-      osc.connect(gain);
-      gain.connect(this.audioCtx.destination);
+      // Clear, resonant volume envelope without clicking
+      mainGain.gain.setValueAtTime(0.001, now);
+      mainGain.gain.linearRampToValueAtTime(0.28, now + 0.025);
+      mainGain.gain.exponentialRampToValueAtTime(0.001, now + duration + 0.65);
 
-      osc.start(now);
-      osc.stop(now + duration + 0.55);
+      warmGain.gain.setValueAtTime(0.001, now);
+      warmGain.gain.linearRampToValueAtTime(0.18, now + 0.03);
+      warmGain.gain.exponentialRampToValueAtTime(0.001, now + duration + 0.7);
+
+      mainOsc.connect(mainGain);
+      warmOsc.connect(warmGain);
+      mainGain.connect(targetNode);
+      warmGain.connect(targetNode);
+
+      mainOsc.start(now);
+      warmOsc.start(now);
+      mainOsc.stop(now + duration + 0.7);
+      warmOsc.stop(now + duration + 0.75);
     }
 
     playPageFlipSound() {

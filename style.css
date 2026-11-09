@@ -570,8 +570,7 @@ input:focus-visible {
   border-radius: 10px;
   padding: 1rem;
   flex: 1;
-  max-height: calc(100% - 150px);
-  min-height: 180px;
+  min-height: 0;
   overflow-y: auto;
   box-shadow: inset 0 2px 8px rgba(58, 38, 35, 0.05);
   background-image: linear-gradient(transparent 95%, rgba(212, 175, 55, 0.16) 95%);
@@ -579,7 +578,7 @@ input:focus-visible {
   line-height: 1.85rem;
   text-align: left;
   user-select: text;
-  margin: 0.5rem 0;
+  margin: 0.4rem 0;
 }
 
 .letter-scroll-box p {
@@ -593,44 +592,58 @@ input:focus-visible {
   margin-bottom: 0;
 }
 
-/* Interactive Gift Box (Page 5) */
+/* Interactive Gift Box (Page 5 / Hal. 04) */
 .gift-stage {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.65rem;
-  margin: 0.25rem 0;
+  gap: 0.9rem;
+  margin: 0.35rem 0;
   flex: 1;
-  overflow: hidden;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0.35rem 0.25rem;
 }
 
 .gift-box-btn {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.35rem;
+  padding: 0.4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.45rem;
+  justify-content: center;
+  gap: 0.65rem;
   border-radius: 16px;
+  flex-shrink: 0;
   transition: transform 0.25s ease;
 }
 
 .gift-box-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 .gift-svg-wrapper {
-  width: 90px;
-  height: 90px;
+  width: 96px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   filter: drop-shadow(0 8px 16px rgba(158, 71, 71, 0.28));
   animation: gentleBounce 2.4s ease-in-out infinite;
   @media (prefers-reduced-motion: reduce) {
     animation: none;
   }
+}
+
+.gift-svg-wrapper svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
 }
 
 .gift-box-btn[aria-expanded="true"] .gift-svg-wrapper {
@@ -649,48 +662,61 @@ input:focus-visible {
 }
 
 .gift-box-btn[aria-expanded="true"] .gift-lid {
-  transform: translateY(-28px) rotate(-14deg);
+  transform: translateY(-20px) rotate(-12deg);
 }
 
 .gift-tap-badge {
-  font-size: 0.78rem;
+  position: relative;
+  z-index: 2;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--rose-deep);
-  background: rgba(232, 180, 184, 0.28);
-  border: 1px solid rgba(184, 93, 104, 0.35);
-  padding: 0.25rem 0.8rem;
+  background: #fdf2f3;
+  border: 1px solid rgba(184, 93, 104, 0.4);
+  padding: 0.35rem 0.95rem;
   border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(184, 93, 104, 0.12);
 }
 
 .gift-message-card {
+  display: none;
+  width: 100%;
   background: linear-gradient(135deg, #fff9f5 0%, #fdf0ec 100%);
   border: 1.5px solid var(--gold-rose);
   border-radius: 12px;
-  padding: 0.85rem 0.95rem;
+  padding: 0.95rem 1rem;
   text-align: center;
   box-shadow: 0 6px 18px rgba(184, 93, 104, 0.14);
-  opacity: 0;
-  transform: translateY(10px) scale(0.96);
-  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-  pointer-events: none;
-  max-height: 140px;
-  overflow-y: auto;
 }
 
 .gift-message-card.is-revealed {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
+  display: block;
+  animation: giftCardReveal 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Wishes / Prayers List (Page 6) */
+@keyframes giftCardReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Wishes / Prayers List (Page 6 / Hal. 05) */
 .wishes-list {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   text-align: left;
-  margin: 0.25rem 0;
+  margin: 0.4rem 0;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 0.3rem;
 }
 
 .wish-item {
