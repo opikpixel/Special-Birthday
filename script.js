@@ -116,50 +116,27 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!this.audioCtx || !this.isPlaying) return;
       const now = this.audioCtx.currentTime;
 
+      // Pure warm sine wave (menghindari triangle yang tajam/grusak-grusuk di speaker HP/laptop)
       const osc = this.audioCtx.createOscillator();
-      const subOsc = this.audioCtx.createOscillator();
       const gain = this.audioCtx.createGain();
 
       osc.type = 'sine';
       osc.frequency.setValueAtTime(freq, now);
 
-      // Warm harmonic overtone
-      subOsc.type = 'triangle';
-      subOsc.frequency.setValueAtTime(freq * 0.5, now);
-
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.linearRampToValueAtTime(0.08, now + 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.0008, now + duration + 0.65);
+      // Attack halus tanpa clipping, decay natural seperti kotak musik kayu
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.045, now + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration + 0.5);
 
       osc.connect(gain);
-      subOsc.connect(gain);
       gain.connect(this.audioCtx.destination);
 
       osc.start(now);
-      subOsc.start(now);
-      osc.stop(now + duration + 0.7);
-      subOsc.stop(now + duration + 0.7);
+      osc.stop(now + duration + 0.55);
     }
 
     playPageFlipSound() {
-      try {
-        this.initContext();
-        if (!this.audioCtx) return;
-        const now = this.audioCtx.currentTime;
-        const osc = this.audioCtx.createOscillator();
-        const gain = this.audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(320, now);
-        osc.frequency.exponentialRampToValueAtTime(580, now + 0.12);
-        gain.gain.setValueAtTime(0.03, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
-        osc.connect(gain);
-        gain.connect(this.audioCtx.destination);
-        osc.start(now);
-        osc.stop(now + 0.15);
-      } catch (_) {
-        // Ignore audio errors if blocked
-      }
+      // Dihilangkan suara osilator frekuensi sweep yang terdengar grusak-grusuk saat ganti halaman
     }
 
     scheduleNextNote() {
